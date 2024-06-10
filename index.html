@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>slider-final</title>
+</head>
+<body>     
+    <div class="testimonial-slider">
+      <div class="testimonial-slide active">
+          <p>"This is the first testimonial. It's awesome!"</p>
+          <p>- John Doe</p>
+      </div>
+      <div class="testimonial-slide">
+          <p>"This is the second testimonial. I love it!"</p>
+          <p>- Jane Smith</p>
+      </div>
+      <div class="testimonial-slide">
+          <p>"This is the third testimonial. Amazing service!"</p>
+          <p>- Michael Johnson</p>
+      </div>
+      <div class="testimonial-controls">
+          <button class="prev">Previous</button>
+          <button class="next">Next</button>
+      </div>
+      <div class="testimonial-dots">
+        <span class="dot active" data-slide="0"></span>
+        <span class="dot" data-slide="1"></span>
+        <span class="dot" data-slide="2"></span>
+    </div>
+    </div>
+    <script>
+      $(function() {
+        let currentIndex = 0;
+        const $slides = $('.testimonial-slide');
+        const $dots = $('.dot');
+        const totalSlides = $slides.length;
+        let slideInterval;
+    
+        function showSlide(index) {
+            $slides.fadeOut().eq(index).fadeIn().addClass('active').siblings().removeClass('active');
+            $dots.eq(index).addClass('active').siblings().removeClass('active');
+        }
+    
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            showSlide(currentIndex);
+        }
+    
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            showSlide(currentIndex);
+        }
+        $('.next').click(nextSlide);
+        $('.prev').click(prevSlide);
+        $dots.click(function() {
+            currentIndex = $(this).data('slide');
+            showSlide(currentIndex);
+        });
+        function startSlider() {
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+        function stopSlider() {
+            clearInterval(slideInterval);
+        }
+    
+        $('.testimonial-slider').hover(stopSlider, startSlider);
+    
+        showSlide(currentIndex);
+        startSlider();
+    });
+    </script>
+</body>
+</html>
